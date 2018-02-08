@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add a Book</title>
+    <link th:replace="base :: bootstrapHeader"/>
+</head>
+<body>
+<nav th:replace="base :: navigation"></nav>
+<form action="#"
+      th:action="@{/books/process}"
+      th:object="${book}"
+      method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Title</span>
+        </div>
+        <input class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1"
+               type="text" th:field="*{title}"/>
+        <span th:if="${#fields.hasErrors('title')}"
+              th:errors="*{title}"></span><br/>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon2">Author</span>
+        </div>
+        <input class="form-control" placeholder="Author" aria-label="Author" aria-describedby="basic-addon2"
+               type="text" th:field="*{author}"/>
+        <span th:if="${#fields.hasErrors('author')}"
+              th:errors="*{author}"></span><br/>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">Publication Year</span>
+        </div>
+        <input class="form-control" placeholder="Publication Year" aria-label="Publication Year"
+               aria-describedby="basic-addon3"
+               type="text" th:field="*{yearOfPublication}"/>
+        <span th:if="${#fields.hasErrors('yearOfPublication')}"
+              th:errors="*{yearOfPublication}"></span><br/>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon4">ISBN</span>
+        </div>
+        <input class="form-control" placeholder="ISBN" aria-label="ISBN" aria-describedby="basic-addon4" type="text"
+               th:field="*{isbn}"/>
+        <span th:if="${#fields.hasErrors('isbn')}"
+              th:errors="*{isbn}"></span><br/>
+    </div>
+
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Upload</span>
+        </div>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile01" th:field="*{image}" />
+            <label class="custom-file-label" for="inputGroupFile01">Choose Image file</label>
+        </div>
+    </div>
+    <br/>
+    <input class="btn btn-primary" type="submit" value="Submit"/>
+</form>
+<div th:replace="base :: bootstrapScript"></div>
+</body>
+</html>
