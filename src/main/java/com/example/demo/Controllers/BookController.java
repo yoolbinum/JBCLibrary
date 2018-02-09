@@ -25,7 +25,7 @@ public class BookController {
     @Autowired
     BookRepository bookRepository;
 
-    final String bookPath = "/books";
+    final String bookPath = "books";
 
     @Autowired
     CloudinaryConfig cloudc;
