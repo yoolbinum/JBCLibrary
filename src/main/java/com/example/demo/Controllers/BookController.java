@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/books")
 public class BookController {
     @Autowired
     BookRepository bookRepository;
@@ -29,7 +30,7 @@ public class BookController {
     @Autowired
     CloudinaryConfig cloudc;
 
-    @RequestMapping(bookPath)
+    @RequestMapping()
     public String listBooks(Model model){
         //test
         /*
@@ -54,26 +55,26 @@ public class BookController {
         return bookPath + "/list";
     }
 
-    @RequestMapping(bookPath + "/available")
+    @RequestMapping("/available")
     public String listAvailableBooks(Model model){
         model.addAttribute("books", bookRepository.findAllByIsBorrowed(false));
         return bookPath + "/borrowList";
     }
 
-    @RequestMapping(bookPath + "/unavailable")
+    @RequestMapping("/unavailable")
     public String listUnavailableBooks(Model model){
         model.addAttribute("books", bookRepository.findAllByIsBorrowed(true));
         return bookPath + "/returnList";
     }
 
-    @RequestMapping(bookPath + "/available/{id}")
+    @RequestMapping("/available/{id}")
     public String msglistAvailableBooks(@PathVariable("id") long id, Model model){
         model.addAttribute("borrowedBook", bookRepository.findOne(id));
         model.addAttribute("books", bookRepository.findAllByIsBorrowed(false));
         return bookPath + "/msgBorrowList";
     }
 
-    @RequestMapping(bookPath + "/unavailable/{id}")
+    @RequestMapping("/unavailable/{id}")
     public String msglistUnavailableBooks(@PathVariable("id") long id, Model model){
         model.addAttribute("returnedBook", bookRepository.findOne(id));
         model.addAttribute("books", bookRepository.findAllByIsBorrowed(true));
@@ -81,13 +82,13 @@ public class BookController {
     }
 
 
-    @GetMapping(bookPath + "/add")
+    @GetMapping("/add")
     public String addBook(Model model){
         model.addAttribute("book", new Book());
         return bookPath + "/form";
     }
 
-    @PostMapping(bookPath + "/process")
+    @PostMapping("/process")
     public String processBook(@Valid Book book, BindingResult result, @RequestParam("file")MultipartFile file){
         if(result.hasErrors()){
             return bookPath + "/form";
@@ -106,7 +107,7 @@ public class BookController {
     }
 
 
-    @RequestMapping(bookPath + "/borrow/{id}")
+    @RequestMapping("/borrow/{id}")
     public String borrowBookPage(@PathVariable("id") long id, Model model){
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date().getTime());
         Book book = bookRepository.findOne(id);
@@ -121,7 +122,7 @@ public class BookController {
         return "redirect:" + bookPath + "/available/" + book.getId();
     }
 
-    @RequestMapping(bookPath + "/return/{id}")
+    @RequestMapping("/return/{id}")
     public String returnBookPage(@PathVariable("id") long id, Model model){
         Book book = bookRepository.findOne(id);
         book.setBorrowed(false);
@@ -129,13 +130,13 @@ public class BookController {
         return "redirect:" + bookPath + "/unavailable/" + book.getId();
     }
 
-    @RequestMapping(bookPath + "/detail/{id}")
+    @RequestMapping("/detail/{id}")
     public String detailBook(@PathVariable("id") long id, Model model){
         model.addAttribute("book", bookRepository.findOne(id));
         return bookPath + "/detail";
     }
 
-    @RequestMapping(bookPath + "/popular")
+    @RequestMapping("/popular")
     public String popularBook(Model model){
         model.addAttribute("books", bookRepository.findAllByOrderByNumBorrowedDesc());
         return bookPath + "/popular";
