@@ -2,10 +2,16 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
+    <title>Books</title>
     <link th:replace="base :: bootstrapHeader"/>
 </head>
 <body>
+<div>
+    <div class="alert alert-success" role="alert">
+        <p th:inline="text">You borrow <strong>[[${borrowedBook.title}]]</strong> written by <strong>[[${borrowedBook.author}]]</strong>!
+        </p>
+    </div>
+</div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,13 +23,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/books">List Books</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/books/add">Add a Book</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/books/available">Borrow a Book</a>
             </li>
             <li class="nav-item">
@@ -35,28 +41,31 @@
         </ul>
     </div>
 </nav>
-<div class="jumbotron">
-    <div th:if="${book.image} != null">
-        <img th:src="${book.image}" class="rounded img-thumbnail"/>
-    </div>
-    <div th:if="${book.image} == null">
-        <img th:src="@{/img/default.jpg}"/>
-    </div>
-    <h1 class="display-4" th:text="${book.title}"></h1>
-    <p class="lead" th:inline="text">Written by [[${book.author}]]</p>
-    <hr class="my-4"/>
-    <p class="lead" th:inline="text">Published in [[${book.yearOfPublication}]]</p>
-    <p class="lead" th:inline="text">ISBN: [[${book.isbn}]]</p>
-    <hr class="my-4"/>
-    <h1 class="display-4">Available?</h1>
-    <p th:if="${book.borrowed} == true" th:text="Yes"></p>
-    <p th:if="${book.borrowed} == false" th:text="No"></p>
-    <hr class="my-4"/>
-    <h1 class="display-8">History record of borrow</h1>
-    <div th:each="timestamp : ${book.borrowHistory}">
-        <p th:text="${timestamp}"></p>
-    </div>
-</div>
+
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Publication Year</th>
+        <th>ISBN</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.yearOfPublication}"></td>
+        <td th:text="${book.isbn}"></td>
+        <td>
+            <a th:href="@{/books/borrow/{id}(id=${book.id})}" type="button" class="btn btn-success">Borrow</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 <div th:replace="base :: bootstrapScript"></div>
 </body>

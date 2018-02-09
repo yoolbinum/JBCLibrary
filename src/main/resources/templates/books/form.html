@@ -29,6 +29,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/books/unavailable">Return a Book</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/books/popular">Popular books</a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -37,7 +40,8 @@
 <form action="#"
       th:action="@{/books/process}"
       th:object="${book}"
-      method="post">
+      method="POST"
+      enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}"/>
 
     <div class="input-group mb-3">
@@ -87,13 +91,23 @@
             <span class="input-group-text">Upload</span>
         </div>
         <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile01" th:field="*{image}" />
-            <label class="custom-file-label" for="inputGroupFile01">Choose Image file</label>
+            <input type="file" name="file" class="custom-file-input" id="imageURL" accept="image/*"/>
+            <label class="custom-file-label" for="imageURL">Choose Image</label>
         </div>
     </div>
+    <img src="#" alt="Upload Image to see" class="rounded img-thumbnail" id="yourImage" />
     <br/>
     <input class="btn btn-primary" type="submit" value="Submit"/>
 </form>
+<script>
+    var reader = new FileReader();
+    reader.onload = function(r_event){
+        document.getElementById('yourImage').setAttribute('src', r_event.target.result);
+    }
+    document.getElementById('imageURL').addEventListener('change', function(event){
+        reader.readAsDataURL(this.files[0]);
+    });
+</script>
 <div th:replace="base :: bootstrapScript"></div>
 </body>
 </html>

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 
 @Entity
 public class Book {
@@ -33,7 +34,36 @@ public class Book {
 
     @NotNull
     private boolean isBorrowed = false;
-    
+
+    private ArrayList<String> borrowHistory = new ArrayList<>();
+
+    private String lastBorrowed;
+
+    private int numBorrowed;
+
+    public int getNumBorrowed() {
+        return numBorrowed;
+    }
+
+    public void setNumBorrowed(int numBorrowed) {
+        this.numBorrowed = numBorrowed;
+    }
+
+    public ArrayList<String> getBorrowHistory() {
+        return borrowHistory;
+    }
+
+    public void setBorrowHistory(ArrayList<String> borrowHistory) {
+        this.borrowHistory = borrowHistory;
+    }
+
+    public String getLastBorrowed() {
+        return lastBorrowed;
+    }
+
+    public void setLastBorrowed(String lastBorrowed) {
+        this.lastBorrowed = lastBorrowed;
+    }
 
     public boolean isBorrowed() {
         return isBorrowed;
