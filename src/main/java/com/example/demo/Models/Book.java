@@ -1,11 +1,13 @@
 package com.example.demo.Models;
 
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Book {
@@ -14,19 +16,32 @@ public class Book {
     private long id;
 
     @NotNull
+    @Size(min=1)
     private String title;
 
     @NotNull
+    @Size(min=4)
     private String author;
 
     @NotNull
+    @Size(min = 4, max = 4)
     private String yearOfPublication;
 
     private String isbn;
 
     private String image;
 
-    private boolean isBorrowed;
+    @NotNull
+    private boolean isBorrowed = false;
+    
+
+    public boolean isBorrowed() {
+        return isBorrowed;
+    }
+
+    public void setBorrowed(boolean borrowed) {
+        isBorrowed = borrowed;
+    }
 
     public long getId() {
         return id;
@@ -40,6 +55,7 @@ public class Book {
         return title;
     }
 
+    @Required
     public void setTitle(String title) {
         this.title = title;
     }
@@ -48,6 +64,7 @@ public class Book {
         return author;
     }
 
+    @Required
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -56,6 +73,7 @@ public class Book {
         return yearOfPublication;
     }
 
+    @Required
     public void setYearOfPublication(String yearOfPublication) {
         this.yearOfPublication = yearOfPublication;
     }
@@ -76,11 +94,4 @@ public class Book {
         this.image = image;
     }
 
-    public boolean isBorrowed() {
-        return isBorrowed;
-    }
-
-    public void setBorrowed(boolean borrowed) {
-        isBorrowed = borrowed;
-    }
 }
